@@ -323,13 +323,18 @@ impl eframe::App for App {
             ui.label(if active { "Running now:" } else { "Will start:" });
             egui::ScrollArea::vertical()
                 .id_salt("games")
-                .max_height((ui.available_height() - 130.0).max(120.0))
+                .max_height((ui.available_height() - 40.0).max(120.0))
                 .auto_shrink([false, true])
                 .show(ui, |ui| {
                     for (i, (name, on)) in names.iter().enumerate() {
-                        let dot = if *on { RichText::new("●").color(Color32::from_rgb(35, 165, 90)) } else { RichText::new("○").weak() };
                         ui.horizontal(|ui| {
-                            ui.label(dot);
+                            // Painted dot: the default font has no filled-circle glyph.
+                            let (rect, _) = ui.allocate_exact_size(egui::vec2(12.0, 12.0), egui::Sense::hover());
+                            if *on {
+                                ui.painter().circle_filled(rect.center(), 4.5_f32, Color32::from_rgb(35, 165, 90));
+                            } else {
+                                ui.painter().circle_stroke(rect.center(), 4.0_f32, egui::Stroke::new(1.0_f32, ui.visuals().weak_text_color()));
+                            }
                             ui.label(format!("{:>3}. {name}", i + 1));
                         });
                     }

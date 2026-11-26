@@ -10,6 +10,11 @@ Discord detects games by the name and folder of the running `.exe`, so the app
 creates a tiny stand-in executable for each game and runs it. No real games are
 downloaded.
 
+<p>
+  <img src="screenshots/main.png" width="45%" alt="Choosing how many games">
+  <img src="screenshots/running.png" width="45%" alt="100 games running">
+</p>
+
 ## How to use
 
 1. Download `discord-game-variety-badge.exe` from the Releases page (or the latest
