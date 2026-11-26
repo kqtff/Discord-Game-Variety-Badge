@@ -40,12 +40,17 @@ fn prepare(game: &Game) -> io::Result<PathBuf> {
     Ok(target)
 }
 
-pub fn start(game: &Game) -> io::Result<Child> {
+pub fn start(game: &Game, minimized: bool) -> io::Result<Child> {
     let exe = prepare(game)?;
     let mut cmd = Command::new(&exe);
     cmd.arg(crate::runner::FLAG)
         .arg("--parent")
-        .arg(std::process::id().to_string());
+        .arg(std::process::id().to_string())
+        .arg("--title")
+        .arg(&game.name);
+    if minimized {
+        cmd.arg("--minimized");
+    }
     if let Some(dir) = exe.parent() {
         cmd.current_dir(dir);
     }

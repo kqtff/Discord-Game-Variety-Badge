@@ -7,8 +7,9 @@ once. Pick how many: **5, 10, 15, 20, 30, 40, 50, 80, 100 or 100+**, press
 It uses the same method as
 [discord-quest-completer](https://github.com/markterence/discord-quest-completer):
 Discord detects games by the name and folder of the running `.exe`, so the app
-creates a tiny stand-in executable for each game and runs it. No real games are
-downloaded.
+creates a stand-in executable for each game and runs it. Each one opens a small
+window titled with the game's name (minimized by default), because Discord
+expects a detected game to have a window. No real games are downloaded.
 
 <p>
   <img src="screenshots/main.png" width="45%" alt="Choosing how many games">
@@ -42,6 +43,10 @@ Options:
   extra disk space. On drives without hard links (FAT32/exFAT) they are copies
   instead, about 7 MB each.
 - All stand-ins close automatically when the app closes, even if it crashes.
+- If Discord doesn't detect anything: in Discord, open **Settings → Activity
+  Privacy** and turn on **Share your detected activities with others**, and
+  check **Settings → Registered Games**. If it still doesn't work, untick
+  **Open game windows minimized** and try again.
 - How many games Discord actually *displays* at once is up to Discord. Your
   profile may only show one or a few of them.
 

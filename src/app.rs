@@ -60,6 +60,7 @@ pub struct App {
     custom: u32,
     auto_stop: bool,
     auto_stop_min: u32,
+    minimized: bool,
     started: Option<Instant>,
 }
 
@@ -75,6 +76,7 @@ impl App {
             custom: 150,
             auto_stop: false,
             auto_stop_min: 20,
+            minimized: true,
             started: None,
         };
         app.load_list(&cc.egui_ctx);
@@ -116,12 +118,13 @@ impl App {
 
         let shared = self.shared.clone();
         let ctx = ctx.clone();
+        let minimized = self.minimized;
         std::thread::spawn(move || {
             for game in plan {
                 if shared.lock().unwrap().stop {
                     break;
                 }
-                let result = launcher::start(&game);
+                let result = launcher::start(&game, minimized);
                 let mut s = shared.lock().unwrap();
                 if s.stop {
                     // Stop was pressed while this one was starting.
@@ -256,6 +259,8 @@ impl eframe::App for App {
                         egui::DragValue::new(&mut self.auto_stop_min).range(1..=600).suffix(" min"),
                     );
                 });
+                ui.checkbox(&mut self.minimized, "Open game windows minimized")
+                    .on_hover_text("Each game opens a small window so Discord detects it. Untick to show them normally.");
             });
             ui.add_space(10.0);
 
